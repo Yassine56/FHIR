@@ -1,0 +1,24 @@
+version: "3.2"
+
+services:
+  test:
+    image: postgres:11-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_HOST: test
+      POSTGRES_USER: yassine
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: test
+  events_users_api:
+    expose:
+      - "4000"
+    depends_on:
+      - test
+    container_name: api
+    build: .
+    ports:
+      - "127.0.0.1:4000:4000"
+    volumes:
+      - ./:/opt/app:rw
+      - /opt/app/node_modules
